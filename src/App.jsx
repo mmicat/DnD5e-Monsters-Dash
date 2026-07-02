@@ -4,6 +4,7 @@ import './App.css'
 function App() {
 
   const [monsters, setMonsters] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchMonsters = async () => {
@@ -11,14 +12,17 @@ function App() {
         // fetch all
         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
         const data = await response.json();
+
         // shuffle then grab first 20
         const random20 = 
           data.results.sort(() => 0.5 - Math.random()).slice(0, 20);
+
         // fetch full first 20
         const fullMonsters = await Promise.all(random20.map(async (monster) => {
           const fullData = await fetch(`https://www.dnd5eapi.co${monster.url}`);
           return await fullData.json();
         }));
+
         // save full monsters to state
         setMonsters(fullMonsters);
       } catch (error) {
@@ -40,14 +44,21 @@ function App() {
 
       <div className="search-and-filter">
         {
-
+          <input 
+            type="text" 
+            placeholder="Search a monster! Is it in this random selection?" 
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         }
       </div>
 
       <div className="list-container">
         {
           monsters.length > 0 ? (
-            monsters.map((monster) => (
+            monsters.filter((monster) =>
+              monster.name.toLowerCase().includes(search.toLowerCase())
+            ).map((monster) => (
               <div className="monster-card" key={monster.index}>
                 <h2>{monster.name}</h2>
                 <p><strong>Type:</strong> {monster.type}</p>
