@@ -1,63 +1,65 @@
-# Web Development Project 5 - _Name of App Here_
+# Web Development Project 5 - DnD 5e Random Monsters Data Dashboard
 
-Submitted by: **Your Name Here**
+Submitted by: **Mira Ismail**
 
-This web app: **insert description**
+This web app: **A dashboard of random Dungeons and Dragons 5th edition monsters with the ability to filter by size, min/max HP and search by name.**
 
-Time spent: **X** hours spent in total
+Time spent: **2** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [ ] **The site has a dashboard displaying a list of data fetched using an API call**
+- [x] **The site has a dashboard displaying a list of data fetched using an API call**
   - The dashboard should display at least 10 unique items, one per row
   - The dashboard includes at least two features in each row
-- [ ] **`useEffect` React hook and `async`/`await` are used**
-- [ ] **The app dashboard includes at least three summary statistics about the data**
+- [x] **`useEffect` React hook and `async`/`await` are used**
+- [x] **The app dashboard includes at least three summary statistics about the data**
   - The app dashboard includes at least three summary statistics about the data, such as:
-    - _insert details here_
-- [ ] **A search bar allows the user to search for an item in the fetched data**
+    - Total amount of monsters loaded
+    - Average Hit Points (HP)
+    - Highest Armor Class (AC)
+- [x] **A search bar allows the user to search for an item in the fetched data**
   - The search bar **correctly** filters items in the list, only displaying items matching the search query
   - The list of results dynamically updates as the user types into the search bar
-- [ ] **An additional filter allows the user to restrict displayed items by specified categories**
+- [x] **An additional filter allows the user to restrict displayed items by specified categories**
   - The filter restricts items in the list using a **different attribute** than the search bar
   - The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
   - The dashboard list dynamically updates as the user adjusts the filter
 
 The following **optional** features are implemented:
 
-- [ ] Multiple filters can be applied simultaneously
-- [ ] Filters use different input types
+- [x] Multiple filters can be applied simultaneously
+- [x] Filters use different input types
   - e.g., as a text input, a dropdown or radio selection, and/or a slider
-- [ ] The user can enter specific bounds for filter values
+- [x] The user can enter specific bounds for filter values
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you added to improve the site's functionality!
+- Full UI overhaul using a custom earthy light theme
+- Custom Google Fonts integration (Pirata One, DM Sans)
+- Custom CSS Loading spinner animation while fetching data
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![image](https://i.imgur.com/usFpHqq.gif)
+![Alt text](image.png)
+[https://i.imgur.com/usFpHqq.gif](https://i.imgur.com/usFpHqq.gif)
 
-<!-- Replace this with whatever GIF tool you used! -->
-
-GIF created with ...
-
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+GIF created with Snip & Sketch for Windows
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Challenges encountered:
+
+- Learning the strict "Rules of Hooks" and ensuring `useState` is called at the top level of the component.
+- Resolving a React crash caused by attempting to render API objects (like the `speed` object) directly into the UI.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2026 Mira Ismail
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
