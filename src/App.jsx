@@ -5,6 +5,7 @@ function App() {
 
   const [monsters, setMonsters] = useState([]);
   const [search, setSearch] = useState("");
+  const [filterSize, setFilterSize] = useState("All");
 
   useEffect(() => {
     const fetchMonsters = async () => {
@@ -44,12 +45,22 @@ function App() {
 
       <div className="search-and-filter">
         {
+          <>
           <input 
             type="text" 
             placeholder="Search a monster! Is it in this random selection?" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          <select value={filterSize} onChange={(e) => setFilterSize(e.target.value)}>
+            <option value="All">All Sizes</option>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+            <option value="Huge">Huge</option>
+            <option value="Gargantuan">Gargantuan</option>
+          </select>
+          </>
         }
       </div>
 
@@ -57,7 +68,15 @@ function App() {
         {
           monsters.length > 0 ? (
             monsters.filter((monster) =>
-              monster.name.toLowerCase().includes(search.toLowerCase())
+              {
+                const matchesSearch =                 
+                monster.name.toLowerCase().includes(search.toLowerCase())
+
+                const matchesSize =
+                filterSize === 'All' || monster.size === filterSize;
+                
+                return matchesSearch && matchesSize;
+              }
             ).map((monster) => (
               <div className="monster-card" key={monster.index}>
                 <h2>{monster.name}</h2>
