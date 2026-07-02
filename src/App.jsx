@@ -6,6 +6,8 @@ function App() {
   const [monsters, setMonsters] = useState([]);
   const [search, setSearch] = useState("");
   const [filterSize, setFilterSize] = useState("All");
+  const [minHp, setMinHp] = useState("");
+  const [maxHp, setMaxHp] = useState("");
 
   useEffect(() => {
     const fetchMonsters = async () => {
@@ -77,6 +79,18 @@ function App() {
             <option value="Huge">Huge</option>
             <option value="Gargantuan">Gargantuan</option>
           </select>
+          <input 
+            type="number" 
+            placeholder="Min HP" 
+            value={minHp}
+            onChange={(e) => setMinHp(e.target.value)}
+          />
+          <input 
+            type="number" 
+            placeholder="Max HP" 
+            value={maxHp}
+            onChange={(e) => setMaxHp(e.target.value)}
+          />
           </>
         }
       </div>
@@ -92,7 +106,11 @@ function App() {
                 const matchesSize =
                 filterSize === 'All' || monster.size === filterSize;
                 
-                return matchesSearch && matchesSize;
+                const matchesMinHp = monster.hit_points >= Number(minHp);
+
+                const matchesMaxHp = maxHp === "" || monster.hit_points <= Number(maxHp);
+              
+                return matchesSearch && matchesSize && matchesMinHp && matchesMaxHp;
               }
             ).map((monster) => (
               <div className="monster-card" key={monster.index}>
