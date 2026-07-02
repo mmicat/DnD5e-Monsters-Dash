@@ -11,10 +11,11 @@ function App() {
         // fetch all
         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
         const data = await response.json();
-        // grab only first 20
-        const first20 = data.results.slice(0, 20);
+        // shuffle then grab first 20
+        const random20 = 
+          data.results.sort(() => 0.5 - Math.random()).slice(0, 20);
         // fetch full first 20
-        const fullMonsters = await Promise.all(first20.map(async (monster) => {
+        const fullMonsters = await Promise.all(random20.map(async (monster) => {
           const fullData = await fetch(`https://www.dnd5eapi.co${monster.url}`);
           return await fullData.json();
         }));
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>D&D 5e Monsters Dashboard</h1>
+      <h1>D&D 5e Random Monsters Dashboard</h1>
       
       <div className="summary-stats">
         {
