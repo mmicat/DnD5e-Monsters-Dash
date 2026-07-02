@@ -1,77 +1,171 @@
-.list-container {
+/* 1. Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=DM+Sans:wght@400;600&display=swap');
+
+/* 2. Earthy Color Palette */
+:root {
+  --bg-color: #f4f1eb;         /* Parchment Beige */
+  --card-bg: #ffffff;          /* Clean White */
+  --text-main: #3e332a;        /* Leather Brown */
+  --text-light: #7a6c62;
+  --accent-green: #6a8a6b;     /* Sage Green */
+  --accent-dark: #4b664d;
+  --border-color: #d1c8b8;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Elms Sans', 'DM Sans', sans-serif;
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
-  margin-top: 30px;
 }
 
-.monster-card {
-  border: 2px solid #555;
-  border-radius: 10px;
-  padding: 20px;
-  width: 250px;
-  background-color: #2a2a2a;
-  color: white;
-  text-align: left;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+/* 3. Scale down to 80% */
+.App {
+  text-align: center;
+  padding: 40px 20px;
+  zoom: 0.8; 
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.monster-card h2 {
-  margin-top: 0;
-  color: #ff5252; /* Give it a fiery D&D feel! */
+/* Headings (Pirata One) */
+h1, h2, h3 {
+  font-family: 'Pirata One', cursive;
+  font-weight: normal;
+  letter-spacing: 1px;
 }
 
-input[type="text"] {
-  width: 500px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin: 10px;
+h1 {
+  font-size: 3.5rem;
+  color: var(--accent-dark);
+  margin-bottom: 40px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 20px;
 }
 
-input[type="number"] {
-  width: 100px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-left: 10px;
-}
-
-select {
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
+/* Summary Stats */
 .summary-stats {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .stat-card {
-  background-color: #ff5252;
-  color: white;
-  padding: 15px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);
-  text-align: center;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-top: 5px solid var(--accent-green);
+  padding: 20px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 .stat-card h3 {
+  color: var(--text-light);
+  font-size: 22px;
   margin: 0;
-  font-size: 18px;
-  font-weight: normal;
 }
 
 .stat-card p {
+  color: var(--text-main);
+  font-size: 36px;
+  font-weight: 600;
   margin: 10px 0 0 0;
-  font-size: 32px;
-  font-weight: bold;
 }
 
+/* Search and Filters */
+.search-and-filter {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
 
+input[type="text"], input[type="number"], select {
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+  border: 1px solid var(--accent-green);
+}
+
+input[type="text"] { width: 400px; }
+input[type="number"] { width: 100px; }
+
+/* Monster Cards Grid */
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.monster-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 25px;
+  width: 260px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.monster-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+}
+
+.monster-card h2 {
+  color: var(--accent-dark);
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.monster-card p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: var(--text-light);
+}
+
+.monster-card strong {
+  color: var(--text-main);
+}
+
+/* 4. Loading Spinner Animation */
+.loader-container {
+  margin-top: 80px;
+  color: var(--text-light);
+  font-family: 'Pirata One', cursive;
+  font-size: 24px;
+}
+
+.loader {
+  border: 5px solid var(--border-color);
+  border-top: 5px solid var(--accent-green);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

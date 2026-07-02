@@ -18,7 +18,7 @@ function App() {
 
         // shuffle then grab first 20
         const random20 = 
-          data.results.sort(() => 0.5 - Math.random()).slice(0, 50);
+          data.results.sort(() => 0.5 - Math.random()).slice(0, 80);
 
         // fetch full first 20
         const fullMonsters = await Promise.all(random20.map(async (monster) => {
@@ -124,7 +124,10 @@ function App() {
               </div>
             ))
           ) : (
-            <p>Loading monsters...</p>
+            <div className="loader-container">
+              <div className="loader"></div>
+              <p>Summoning monsters...</p>
+            </div>
           )
         }
       </div>
