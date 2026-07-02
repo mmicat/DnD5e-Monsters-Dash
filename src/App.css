@@ -37,3 +37,31 @@ select {
   font-size: 16px;
   border-radius: 5px;
 }
+
+.summary-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background-color: #ff5252;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.stat-card p {
+  margin: 10px 0 0 0;
+  font-size: 32px;
+  font-weight: bold;
+}

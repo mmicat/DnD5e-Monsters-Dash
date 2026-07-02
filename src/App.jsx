@@ -16,7 +16,7 @@ function App() {
 
         // shuffle then grab first 20
         const random20 = 
-          data.results.sort(() => 0.5 - Math.random()).slice(0, 20);
+          data.results.sort(() => 0.5 - Math.random()).slice(0, 50);
 
         // fetch full first 20
         const fullMonsters = await Promise.all(random20.map(async (monster) => {
@@ -33,15 +33,32 @@ function App() {
     fetchMonsters();
   }, []); // to run only when app loads
 
+  const averageHp = monsters.length > 0 
+    ? Math.round(monsters.reduce((total, monster) => total + monster.hit_points, 0) / monsters.length) 
+    : 0;
+  const highestAc = monsters.length > 0 
+    ? Math.max(...monsters.map(monster => monster.armor_class[0].value)) 
+    : 0;
+
   return (
     <div className="App">
       <h1>D&D 5e Random Monsters Dashboard</h1>
       
       <div className="summary-stats">
-        {
-          <p>Monsters Loaded: {monsters.length}</p>
-        }
+        <div className="stat-card">
+          <h3>Total Monsters</h3>
+          <p>{monsters.length}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Average HP</h3>
+          <p>{averageHp}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Highest AC</h3>
+          <p>{highestAc}</p>
+        </div>
       </div>
+
 
       <div className="search-and-filter">
         {
