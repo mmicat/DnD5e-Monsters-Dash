@@ -38,11 +38,29 @@ function App() {
       </div>
 
       <div className="search-and-filter">
-         {}
+        {
+
+        }
       </div>
 
       <div className="list-container">
-        {}
+        {
+          monsters.length > 0 ? (
+            monsters.map((monster) => (
+              <div className="monster-card" key={monster.index}>
+                <h2>{monster.name}</h2>
+                <p><strong>Type:</strong> {monster.type}</p>
+                <p><strong>AC:</strong> {monster.armor_class[0].value}</p>
+                <p><strong>HP:</strong> {monster.hit_points}</p>
+                <p><strong>Size:</strong> {monster.size}</p>
+                <p><strong>Alignment:</strong> {monster.alignment}</p>
+                <p><strong>Speed:</strong> {monster.speed.walk}</p> 
+              </div>
+            ))
+          ) : (
+            <p>Loading monsters...</p>
+          )
+        }
       </div>
     </div>
   )
