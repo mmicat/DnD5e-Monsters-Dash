@@ -11,6 +11,8 @@ function App() {
 
   const [monsters, setMonsters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [numMonsters, setNumMonsters] = useState(80);
+  const [sliderValue, setSliderValue] = useState(80);
   const [search, setSearch] = useState("");
   const [filterSize, setFilterSize] = useState("All");
   const [minHp, setMinHp] = useState("");
@@ -24,16 +26,16 @@ function App() {
         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
         const data = await response.json();
 
-        // Fisher-Yates shuffle then grab first 80
+        // Fisher-Yates shuffle then grab selected number
         const shuffled = [...data.results];
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
-        const random80 = shuffled.slice(0, 80);
+        const randomSelection = shuffled.slice(0, numMonsters);
 
-        // fetch full first 80
-        const fullMonsters = await Promise.all(random80.map(async (monster) => {
+        // fetch full selected monsters
+        const fullMonsters = await Promise.all(randomSelection.map(async (monster) => {
           const fullData = await fetch(`https://www.dnd5eapi.co${monster.url}`);
           return await fullData.json();
         }));
@@ -47,7 +49,7 @@ function App() {
       }
     };
     fetchMonsters();
-  }, []); // to run only when app loads
+  }, [numMonsters]); // re-run when numMonsters changes
 
   const averageHp = monsters.length > 0 
     ? Math.round(monsters.reduce((total, monster) => total + monster.hit_points, 0) / monsters.length) 
@@ -138,14 +140,28 @@ function App() {
       <div className="search-and-filter">
         {
           <>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Summoning {sliderValue} monsters</label>
+            <input 
+              type="range" 
+              min="1" 
+              max="100" 
+              value={sliderValue}
+              onChange={(e) => setSliderValue(e.target.value)}
+              onMouseUp={(e) => setNumMonsters(e.target.value)}
+              onTouchEnd={(e) => setNumMonsters(e.target.value)}
+              style={{ width: '150px' }}
+            />
+          </div>
           <input 
             type="text" 
-            placeholder="Search a monster! Is it in this random selection?" 
+            placeholder="Search a monster!" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <select value={filterSize} onChange={(e) => setFilterSize(e.target.value)}>
             <option value="All">All Sizes</option>
+            <option value="Tiny">Tiny</option>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
