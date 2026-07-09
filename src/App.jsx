@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from "react-router";
 import './App.css'
 
 function App() {
@@ -113,15 +114,17 @@ function App() {
                 return matchesSearch && matchesSize && matchesMinHp && matchesMaxHp;
               }
             ).map((monster) => (
-              <div className="monster-card" key={monster.index}>
-                <h2>{monster.name}</h2>
-                <p><strong>Type:</strong> {monster.type}</p>
-                <p><strong>AC:</strong> {monster.armor_class[0].value}</p>
-                <p><strong>HP:</strong> {monster.hit_points}</p>
-                <p><strong>Size:</strong> {monster.size}</p>
-                <p><strong>Alignment:</strong> {monster.alignment}</p>
-                <p><strong>Speed:</strong> {monster.speed.walk}</p> 
-              </div>
+              <Link to={`/item/${monster.index}`} key={monster.index}>
+                <div className="monster-card">
+                  <h2>{monster.name}</h2>
+                  <p><strong>Type:</strong> {monster.type}</p>
+                  <p><strong>AC:</strong> {monster.armor_class[0].value}</p>
+                  <p><strong>HP:</strong> {monster.hit_points}</p>
+                  <p><strong>Size:</strong> {monster.size}</p>
+                  <p><strong>Alignment:</strong> {monster.alignment}</p>
+                  <p><strong>Speed:</strong> {monster.speed.walk}</p> 
+                </div>
+              </Link>
             ))
           ) : (
             <div className="loader-container">
