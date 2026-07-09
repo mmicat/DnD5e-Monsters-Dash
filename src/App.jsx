@@ -13,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [numMonsters, setNumMonsters] = useState(80);
   const [sliderValue, setSliderValue] = useState(80);
+  const [showCharts, setShowCharts] = useState(true);
   const [search, setSearch] = useState("");
   const [filterSize, setFilterSize] = useState("All");
   const [minHp, setMinHp] = useState("");
@@ -103,56 +104,72 @@ function App() {
           <p>{highestAc}</p>
         </div>
       </div>
-
-      <div className="charts-container" style={{ display: 'flex', gap: '20px', marginBottom: '40px' }}>
-  
-        {/* Chart 1: Size Distribution */}
-        <div className="chart-card" style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
-          <h3>Monster Size Distribution</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={sizeChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#6a8a6b" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Chart 2: HP vs AC */}
-        <div className="chart-card" style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
-          <h3>HP vs. Armor Class</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" dataKey="ac" name="Armor Class" label={{ value: 'Armor Class', position: 'insideBottom', offset: -5 }} />
-              <YAxis type="number" dataKey="hp" name="Hit Points" label={{ value: 'Hit Points', angle: -90, position: 'insideLeft' }} />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              {/* We pass our data directly to the Scatter component here */}
-              <Scatter name="Monsters" data={hpAcData} fill="#4b664d" />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <label style={{ fontSize: '14px', marginBottom: '5px' }}>Summoning {sliderValue} monsters</label>
+        <input 
+          type="range" 
+          min="1" 
+          max="100" 
+          value={sliderValue}
+          onChange={(e) => setSliderValue(e.target.value)}
+          onMouseUp={(e) => setNumMonsters(e.target.value)}
+          onTouchEnd={(e) => setNumMonsters(e.target.value)}
+          style={{ width: '150px' }}
+        />
       </div>
+
+      <div className="dashboard-insights" style={{ textAlign: 'center', marginBottom: '30px', padding: '0 20px' }}>
+        <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: 'var(--text-light)', marginBottom: '20px', maxWidth: '800px', margin: '0 auto 20px auto', lineHeight: '1.5' }}>
+          💡 <strong>Did you know?</strong> While you might expect Gargantuan monsters to automatically have the highest Armor Class, dexterity plays a huge role in D&D! However, Hit Points scale drastically with size. Adjust the slider above to summon a larger sample size and watch how the size distribution and HP vs AC plots evolve!
+        </p>
+        <button 
+          onClick={() => setShowCharts(!showCharts)}
+          style={{ padding: '10px 20px', fontSize: '1rem', backgroundColor: 'var(--accent-dark)', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontFamily: 'inherit', transition: 'opacity 0.2s' }}
+          onMouseOver={(e) => e.target.style.opacity = 0.8}
+          onMouseOut={(e) => e.target.style.opacity = 1}
+        >
+          {showCharts ? 'Hide Data Visualizations 📉' : 'Show Data Visualizations 📈'}
+        </button>
+      </div>
+
+      {showCharts && (
+        <div className="charts-container" style={{ display: 'flex', gap: '20px', marginBottom: '40px', flexWrap: 'wrap' }}>
+    
+          {/* Chart 1: Size Distribution */}
+          <div className="chart-card" style={{ flex: 1, minWidth: '300px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
+            <h3>Monster Size Distribution</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={sizeChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="count" fill="#6a8a6b" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Chart 2: HP vs AC */}
+          <div className="chart-card" style={{ flex: 1, minWidth: '300px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
+            <h3>HP vs. Armor Class</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <ScatterChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" dataKey="ac" name="Armor Class" label={{ value: 'Armor Class', position: 'insideBottom', offset: -5 }} />
+                <YAxis type="number" dataKey="hp" name="Hit Points" label={{ value: 'Hit Points', angle: -90, position: 'insideLeft' }} />
+                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                {/* We pass our data directly to the Scatter component here */}
+                <Scatter name="Monsters" data={hpAcData} fill="#4b664d" />
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
 
 
       <div className="search-and-filter">
         {
           <>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Summoning {sliderValue} monsters</label>
-            <input 
-              type="range" 
-              min="1" 
-              max="100" 
-              value={sliderValue}
-              onChange={(e) => setSliderValue(e.target.value)}
-              onMouseUp={(e) => setNumMonsters(e.target.value)}
-              onTouchEnd={(e) => setNumMonsters(e.target.value)}
-              style={{ width: '150px' }}
-            />
-          </div>
           <input 
             type="text" 
             placeholder="Search a monster!" 

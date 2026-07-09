@@ -23,9 +23,9 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] The site’s customized dashboard contains more content that explains what is interesting about the data
+- [x] The site’s customized dashboard contains more content that explains what is interesting about the data
   - e.g., an additional description, graph annotation, suggestion for which filters to use, or an additional page that explains more about the data
-- [ ] The site allows users to toggle between different data visualizations
+- [x] The site allows users to toggle between different data visualizations
   - User should be able to use some mechanism to toggle between displaying and hiding visualizations
 
 The following **additional** features are implemented:
@@ -33,6 +33,10 @@ The following **additional** features are implemented:
 - [x] Full UI overhaul using a custom earthy/parchment light theme.
 - [x] Custom Google Fonts integration (Pirata One, DM Sans).
 - [x] Custom CSS Loading spinner animation while fetching data.
+- [x] **"Tiny" Size Filter:** Added an extra option to filter by tiny monsters.
+- [x] **Dynamic Range Slider:** A slider to set exactly how many monsters (1-100) should be randomly fetched from the API.
+- [x] **Character Sheet Design:** The detail view has been polished to resemble a D&D character sheet with organized core stats.
+- [x] **Fisher-Yates Shuffle:** Improved the RNG algorithm for a truly uniform shuffle instead of biased sorting.
 
 ## Video Walkthrough
 
