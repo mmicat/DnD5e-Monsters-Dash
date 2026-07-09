@@ -1,3 +1,8 @@
+import { 
+  BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
+  ScatterChart, Scatter, ZAxis
+} from 'recharts';
+
 import { useState, useEffect } from 'react'
 import { Link } from "react-router";
 import './App.css'
@@ -43,6 +48,25 @@ function App() {
     ? Math.max(...monsters.map(monster => monster.armor_class[0].value)) 
     : 0;
 
+    // data for size bar chart
+    const sizeCounts = monsters.reduce((acc, monster) => {
+        acc[monster.size] = (acc[monster.size] || 0) + 1;
+        return acc;
+    }, {});
+    // convert into the array format Recharts wants: [{ name: 'Medium', count: 12 }, ...]
+    const sizeChartData = Object.keys(sizeCounts).map(size => ({
+        name: size,
+        count: sizeCounts[size]
+    }));
+
+    // data for HP vs AC Scatter Chart
+    // just map over the monsters to grab exactly what we need
+    const hpAcData = monsters.map(m => ({
+        name: m.name,
+        hp: m.hit_points,
+        ac: m.armor_class[0].value
+    }));
+
   return (
     <div className="App">
       <h1>D&D 5e Random Monsters Dashboard</h1>
@@ -59,6 +83,38 @@ function App() {
         <div className="stat-card">
           <h3>Highest AC</h3>
           <p>{highestAc}</p>
+        </div>
+      </div>
+
+      <div className="charts-container" style={{ display: 'flex', gap: '20px', marginBottom: '40px' }}>
+  
+        {/* Chart 1: Size Distribution */}
+        <div className="chart-card" style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
+          <h3>Monster Size Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={sizeChartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" fill="#6a8a6b" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Chart 2: HP vs AC */}
+        <div className="chart-card" style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
+          <h3>HP vs. Armor Class</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <ScatterChart>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" dataKey="ac" name="Armor Class" label={{ value: 'Armor Class', position: 'insideBottom', offset: -5 }} />
+              <YAxis type="number" dataKey="hp" name="Hit Points" label={{ value: 'Hit Points', angle: -90, position: 'insideLeft' }} />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+              {/* We pass our data directly to the Scatter component here */}
+              <Scatter name="Monsters" data={hpAcData} fill="#4b664d" />
+            </ScatterChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
