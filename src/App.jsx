@@ -10,6 +10,7 @@ import './App.css'
 function App() {
 
   const [monsters, setMonsters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterSize, setFilterSize] = useState("All");
   const [minHp, setMinHp] = useState("");
@@ -17,17 +18,22 @@ function App() {
 
   useEffect(() => {
     const fetchMonsters = async () => {
+      setIsLoading(true);
       try {
         // fetch all
         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
         const data = await response.json();
 
-        // shuffle then grab first 20
-        const random20 = 
-          data.results.sort(() => 0.5 - Math.random()).slice(0, 80);
+        // Fisher-Yates shuffle then grab first 80
+        const shuffled = [...data.results];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const random80 = shuffled.slice(0, 80);
 
-        // fetch full first 20
-        const fullMonsters = await Promise.all(random20.map(async (monster) => {
+        // fetch full first 80
+        const fullMonsters = await Promise.all(random80.map(async (monster) => {
           const fullData = await fetch(`https://www.dnd5eapi.co${monster.url}`);
           return await fullData.json();
         }));
@@ -36,6 +42,8 @@ function App() {
         setMonsters(fullMonsters);
       } catch (error) {
         console.error("Error fetching monsters:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchMonsters();
@@ -66,6 +74,14 @@ function App() {
         hp: m.hit_points,
         ac: m.armor_class[0].value
     }));
+
+  const filteredMonsters = monsters.filter((monster) => {
+    const matchesSearch = monster.name.toLowerCase().includes(search.toLowerCase());
+    const matchesSize = filterSize === 'All' || monster.size === filterSize;
+    const matchesMinHp = minHp === "" || monster.hit_points >= Number(minHp);
+    const matchesMaxHp = maxHp === "" || monster.hit_points <= Number(maxHp);
+    return matchesSearch && matchesSize && matchesMinHp && matchesMaxHp;
+  });
 
   return (
     <div className="App">
@@ -153,42 +169,30 @@ function App() {
       </div>
 
       <div className="list-container">
-        {
-          monsters.length > 0 ? (
-            monsters.filter((monster) =>
-              {
-                const matchesSearch =                 
-                monster.name.toLowerCase().includes(search.toLowerCase())
-
-                const matchesSize =
-                filterSize === 'All' || monster.size === filterSize;
-                
-                const matchesMinHp = monster.hit_points >= Number(minHp);
-
-                const matchesMaxHp = maxHp === "" || monster.hit_points <= Number(maxHp);
-              
-                return matchesSearch && matchesSize && matchesMinHp && matchesMaxHp;
-              }
-            ).map((monster) => (
-              <Link to={`/item/${monster.index}`} key={monster.index}>
-                <div className="monster-card">
-                  <h2>{monster.name}</h2>
-                  <p><strong>Type:</strong> {monster.type}</p>
-                  <p><strong>AC:</strong> {monster.armor_class[0].value}</p>
-                  <p><strong>HP:</strong> {monster.hit_points}</p>
-                  <p><strong>Size:</strong> {monster.size}</p>
-                  <p><strong>Alignment:</strong> {monster.alignment}</p>
-                  <p><strong>Speed:</strong> {monster.speed.walk}</p> 
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div className="loader-container">
-              <div className="loader"></div>
-              <p>Summoning monsters...</p>
-            </div>
-          )
-        }
+        {isLoading ? (
+          <div className="loader-container">
+            <div className="loader"></div>
+            <p>Summoning monsters...</p>
+          </div>
+        ) : filteredMonsters.length > 0 ? (
+          filteredMonsters.map((monster) => (
+            <Link to={`/item/${monster.index}`} key={monster.index}>
+              <div className="monster-card">
+                <h2>{monster.name}</h2>
+                <p><strong>Type:</strong> {monster.type}</p>
+                <p><strong>AC:</strong> {monster.armor_class[0].value}</p>
+                <p><strong>HP:</strong> {monster.hit_points}</p>
+                <p><strong>Size:</strong> {monster.size}</p>
+                <p><strong>Alignment:</strong> {monster.alignment}</p>
+                <p><strong>Speed:</strong> {monster.speed.walk}</p> 
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="no-results" style={{ gridColumn: '1 / -1', textAlign: 'center', marginTop: '20px' }}>
+            <p style={{ fontSize: '1.2rem', color: 'var(--text-light)' }}>No monsters matched your search criteria. Try adjusting your filters!</p>
+          </div>
+        )}
       </div>
     </div>
   )
