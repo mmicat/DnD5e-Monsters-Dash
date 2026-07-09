@@ -1,52 +1,46 @@
-# Web Development Project 5 - DnD 5e Random Monsters Data Dashboard
+# Web Development Project 6 - DnD 5e Random Monsters Data Dashboard
 
 Submitted by: **Mira Ismail**
 
-This web app: **A dashboard of random Dungeons and Dragons 5th edition monsters with the ability to filter by size, min/max HP and search by name.**
+This web app: **A dashboard of random Dungeons and Dragons 5th edition monsters with the ability to filter by size, min/max HP, and search by name. The app features dynamic routing to a unique character sheet for each monster, and interactive data visualizations tracking monster stats.**
 
-Time spent: **2** hours spent in total
+Time spent: **3** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The site has a dashboard displaying a list of data fetched using an API call**
-  - The dashboard should display at least 10 unique items, one per row
-  - The dashboard includes at least two features in each row
-- [x] **`useEffect` React hook and `async`/`await` are used**
-- [x] **The app dashboard includes at least three summary statistics about the data**
-  - The app dashboard includes at least three summary statistics about the data, such as:
-    - Total amount of monsters loaded
-    - Average Hit Points (HP)
-    - Highest Armor Class (AC)
-- [x] **A search bar allows the user to search for an item in the fetched data**
-  - The search bar **correctly** filters items in the list, only displaying items matching the search query
-  - The list of results dynamically updates as the user types into the search bar
-- [x] **An additional filter allows the user to restrict displayed items by specified categories**
-  - The filter restricts items in the list using a **different attribute** than the search bar
-  - The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
-  - The dashboard list dynamically updates as the user adjusts the filter
+- [x] **Clicking on an item in the list view displays more details about it**
+  - Clicking on an item in the dashboard list navigates to a detail view for that item
+  - Detail view includes extra information about the item not included in the dashboard view
+  - The same sidebar is displayed in detail view as in dashboard view
+  - _To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording._
+- [x] **Each detail view of an item has a direct, unique URL link to that item’s detail view page**
+  - _To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording._
+- [x] **The app includes at least two unique charts developed using the fetched data that tell an interesting story**
+  - At least two charts should be incorporated into the dashboard view of the site
+  - Each chart should describe a different aspect of the dataset
 
 The following **optional** features are implemented:
 
-- [x] Multiple filters can be applied simultaneously
-- [x] Filters use different input types
-  - e.g., as a text input, a dropdown or radio selection, and/or a slider
-- [x] The user can enter specific bounds for filter values
+- [ ] The site’s customized dashboard contains more content that explains what is interesting about the data
+  - e.g., an additional description, graph annotation, suggestion for which filters to use, or an additional page that explains more about the data
+- [ ] The site allows users to toggle between different data visualizations
+  - User should be able to use some mechanism to toggle between displaying and hiding visualizations
 
 The following **additional** features are implemented:
 
-- Full UI overhaul using a custom earthy light theme
-- Custom Google Fonts integration (Pirata One, DM Sans)
-- Custom CSS Loading spinner animation while fetching data
+- [x] Full UI overhaul using a custom earthy/parchment light theme.
+- [x] Custom Google Fonts integration (Pirata One, DM Sans).
+- [x] Custom CSS Loading spinner animation while fetching data.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-![image](https://i.imgur.com/usFpHqq.gif)
-![Alt text](image.png)
-[https://i.imgur.com/usFpHqq.gif](https://i.imgur.com/usFpHqq.gif)
+<img src='YOUR_GIF_LINK_HERE' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+<!-- Replace YOUR_GIF_LINK_HERE with the link to whatever GIF tool you used! -->
 
 GIF created with Snip & Sketch for Windows
 
@@ -54,8 +48,8 @@ GIF created with Snip & Sketch for Windows
 
 Challenges encountered:
 
-- Learning the strict "Rules of Hooks" and ensuring `useState` is called at the top level of the component.
-- Resolving a React crash caused by attempting to render API objects (like the `speed` object) directly into the UI.
+- Learning to configure React Router with nested routes and Outlet layouts.
+- Structuring the D&D API array data correctly so that it could be consumed and plotted by the Recharts library.
 
 ## License
 
